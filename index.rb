@@ -40,6 +40,7 @@ end
 end
 
 
+#method that will take the user input birthdate, calculate it, and return the correct message
 def setup_index_view
     birthdate = params[:birthdate]
     birth_path_num = get_birth_path_num(birthdate)
@@ -51,14 +52,24 @@ get '/:birthdate' do
     setup_index_view
 end
 
-
+# this shows the form file on the homepage
 get '/' do
   erb :form
 end
 
-
+#this redirects so when user refreshes no new date is submitted
 post '/' do
-   setup_index_view
+   birthdate = params[:birthdate].gsub("-","")
+   birth_path_num = get_birth_path_num(params[:birthdate])
+   redirect "/message/#{birth_path_num}"
+end
+
+
+#this shows the message based off user birthdate
+get '/message/:birth_path_num' do
+    birth_path_num = params[:birth_path_num].to_i
+    @message = get_message(birth_path_num)
+    erb :index
 end
 
 
@@ -66,11 +77,3 @@ end
 
 
 
-
-
-
-
-
-#get '/messages/' do
- #   erb :messages
-#end
