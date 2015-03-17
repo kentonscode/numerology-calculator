@@ -40,11 +40,15 @@ end
 end
 
 
-get '/:birthdate' do
+def setup_index_view
     birthdate = params[:birthdate]
     birth_path_num = get_birth_path_num(birthdate)
     @message = get_message(birth_path_num)
     erb :index
+end
+
+get '/:birthdate' do
+    setup_index_view
 end
 
 
@@ -54,10 +58,7 @@ end
 
 
 post '/' do
-    birthdate = params[:birthdate]
-    birth_path_num = get_birth_path_num(birthdate)
-    @message = get_message(birth_path_num)
-    erb :index
+   setup_index_view
 end
 
 
