@@ -59,8 +59,8 @@ end
 
 #this redirects so when user refreshes no new date is submitted
 post '/' do
-   birthdate = params[:birthdate].gsub("-","")
-   birth_path_num = get_birth_path_num(params[:birthdate])
+   birthdate = params[:birthdate].gsub("-", "")
+   birth_path_num = get_birth_path_num(birthdate)
    redirect "/message/#{birth_path_num}"
 end
 
