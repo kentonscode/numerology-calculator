@@ -58,12 +58,25 @@ get '/' do
 end
 
 #this redirects so when user refreshes no new date is submitted
+=begin
+
 post '/' do
    birthdate = params[:birthdate].gsub("-", "")
    birth_path_num = get_birth_path_num(birthdate)
    redirect "/message/#{birth_path_num}"
 end
+=end
 
+post '/' do
+   birthdate = params[:birthdate]
+   if valid_birthdate(birthdate)
+    birth_path_num = get_birth_path_num(birthdate)
+   redirect "/message/#{birth_path_num}"
+ else
+  erb :form
+end
+@error = "Sorry, your input wasn't recognized. Please enter MMDDYYYY"
+end
 
 #this shows the message based off user birthdate
 get '/message/:birth_path_num' do
@@ -72,6 +85,17 @@ get '/message/:birth_path_num' do
     erb :index
 end
 
+
+#validate if they wrote out birthdate correctly
+#.nil? was added from solution
+
+def valid_birthdate(input)
+  if (input.length == 8 && !input.match(/^[0-9]+[0-9]$/).nil?)
+    return true
+  else
+    return false
+  end
+end
 
 
 
